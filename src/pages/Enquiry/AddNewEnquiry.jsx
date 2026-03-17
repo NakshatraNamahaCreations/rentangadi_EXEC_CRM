@@ -458,7 +458,14 @@ const AddNewEnquiry = () => {
                   <Col md={4}>
                     <Form.Group>
                       <Form.Label>Company Name</Form.Label>
-                      {userRole === "client" ? (
+
+                       <Form.Control
+                          type="text"
+                          value={clientData.find((c) => c._id === companyId)?.name || ""}
+                          readOnly
+                          style={{ background: "#f8f9fa", cursor: "not-allowed" }}
+                        />
+                      {/* {userRole === "client" ? (
                         <Form.Control
                           type="text"
                           value={clientData.find((c) => c._id === companyId)?.name || ""}
@@ -484,7 +491,7 @@ const AddNewEnquiry = () => {
                           isClearable
                           isSearchable
                         />
-                      )}
+                      )} */}
                     </Form.Group>
                   </Col>
 
