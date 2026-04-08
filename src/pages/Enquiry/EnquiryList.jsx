@@ -199,7 +199,8 @@ const EnquiryList = () => {
                   <th style={{ width: "18%" }}>Company Name</th>
                   <th style={{ width: "15%" }}>Executive Name</th>
                   <th style={{ width: "10%" }}>GrandTotal</th>
-                  <th style={{ width: "12%" }} className="text-center">
+                  <th style={{ width: "10%" }} className="text-center">Status</th>
+                  <th style={{ width: "10%" }} className="text-center">
                     Actions
                   </th>
                 </tr>
@@ -208,13 +209,13 @@ const EnquiryList = () => {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="8" className="text-center">
+                    <td colSpan="9" className="text-center">
                       <Spinner animation="border" />
                     </td>
                   </tr>
                 ) : currentItems.length === 0 ? (
                   <tr>
-                    <td colSpan="8" className="text-center">
+                    <td colSpan="9" className="text-center">
                       No enquiries found.
                     </td>
                   </tr>
@@ -234,6 +235,20 @@ const EnquiryList = () => {
                       <td>{enq.clientName}</td>
                       <td>{enq.executivename}</td>
                       <td>{enq.GrandTotal}</td>
+                      <td className="text-center">
+                        <span
+                          style={{
+                            padding: "3px 10px",
+                            borderRadius: 12,
+                            fontSize: "0.78rem",
+                            fontWeight: 600,
+                            color: "#fff",
+                            backgroundColor: enq.status === "sent" ? "#28a745" : "#f0ad4e",
+                          }}
+                        >
+                          {enq.status === "sent" ? "Confirmed" : "Pending"}
+                        </span>
+                      </td>
                       <td className="text-center">
                         <Button
                           variant="outline-primary"

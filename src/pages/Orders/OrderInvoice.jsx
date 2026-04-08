@@ -274,14 +274,14 @@ export default function OrderInvoice() {
       // ✅ Better widths (Amount got more space)
       // ✅ Better widths (8 columns)
       const colW = {
-        sn: usableWidth * 0.06,
-        slot: usableWidth * 0.24,
-        name: usableWidth * 0.22,
-        img: usableWidth * 0.14,
-        qty: usableWidth * 0.09,
-        price: usableWidth * 0.10,  // ✅ new
+        sn: usableWidth * 0.05,
+        slot: usableWidth * 0.22,
+        name: usableWidth * 0.20,
+        img: usableWidth * 0.13,
+        qty: usableWidth * 0.08,
+        price: usableWidth * 0.10,
         days: usableWidth * 0.06,
-        amt: usableWidth * 0.09,
+        amt: usableWidth * 0.16,
       };
 
       autoTable(doc, {
@@ -333,7 +333,7 @@ export default function OrderInvoice() {
 
           // ✅ keep Price/Qty and Amount within the cell
           if (data.row.section === "body" && (data.column.index === 5 || data.column.index === 7)) {
-            data.cell.styles.overflow = "hidden";
+            data.cell.styles.overflow = "linebreak";
             data.cell.styles.halign = "right";
           }
         },

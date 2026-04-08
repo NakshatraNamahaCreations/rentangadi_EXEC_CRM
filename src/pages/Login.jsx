@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { ApiURL } from "../api";
 import logo from "../assets/RentangadiLogo.jpg";
 import { AuthManager } from "../utils/auth";
@@ -47,10 +47,11 @@ const Login = ({ handleLogin }) => {
 
       if (res.status === 200) {
         toast.success("Login successful");
-
         AuthManager.setAuthData(res.data.token, res.data.permissions, res.data.user);
-        handleLogin && handleLogin(res.data.permissions);
-        navigate("/view-orders");
+        setTimeout(() => {
+          handleLogin && handleLogin(res.data.permissions);
+          navigate("/view-orders");
+        }, 1000);
       } else {
         toast.error("Login failed");
       }
@@ -73,7 +74,6 @@ const Login = ({ handleLogin }) => {
         justifyContent: "center",
       }}
     >
-      <Toaster />
       <div
         className="login-main-container"
         style={{

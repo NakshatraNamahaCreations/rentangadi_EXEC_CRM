@@ -130,7 +130,7 @@ const Sidebars = () => {
     <div
       className="flex-column flex-shrink-0 p-3 vh-100 position-fixed sidebar-scroll"
       style={{
-        width: "20%",
+        width: "210px",
         zIndex: 1,
         // background: "#323D4F",
         background: '#BD5525',
@@ -143,7 +143,7 @@ const Sidebars = () => {
           <img
             src={logo}
             alt="logo"
-            style={{ width: "200px" }}
+            style={{ width: "160px" }}
             className="mx-auto"
           />
         </Link>
