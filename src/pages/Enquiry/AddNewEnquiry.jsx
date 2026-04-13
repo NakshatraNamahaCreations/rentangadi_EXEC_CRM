@@ -118,7 +118,7 @@ const AddNewEnquiry = () => {
         const clients = res.data.Client || [];
         setClientData(clients);
 
-        // Auto-select company when logged in as client (use sessionStorage role, not API)
+        // Auto-select company when logged in as client or executive
         const storedUser = JSON.parse(sessionStorage.getItem("user") || "{}");
         const currentRole = storedUser.role || "";
         if (currentRole === "client") {
@@ -128,6 +128,21 @@ const AddNewEnquiry = () => {
           );
           if (myCompany) {
             setCompanyId(myCompany._id);
+          }
+        } else if (currentRole === "executive") {
+          // Executive belongs to a client — use clientId to find the company
+          const myCompany = clients.find(
+            (c) => String(c._id) === String(storedUser.clientId)
+          );
+          if (myCompany) {
+            setCompanyId(myCompany._id);
+            // Pre-select this executive in the dropdown
+            const me = myCompany.executives?.find(
+              (ex) => String(ex._id) === String(storedUser._id)
+            );
+            if (me) {
+              setExecutiveId(me._id);
+            }
           }
         }
       }
@@ -498,21 +513,35 @@ const AddNewEnquiry = () => {
                   <Col md={6}>
                     <Form.Group>
                       <Form.Label>Executive Name</Form.Label>
-                      <Form.Select
-                        value={executiveId}
-                        onChange={(e) => setExecutiveId(e.target.value)}
-                        disabled={!companyId}
-                      >
-                        <option value="">Select Executive Name</option>
-                        {companyId &&
-                          clientData
-                            .find((c) => c._id === companyId)
-                            ?.executives?.map((ex) => (
-                              <option key={ex._id} value={ex._id}>
-                                {ex.name}
-                              </option>
-                            ))}
-                      </Form.Select>
+                      {userRole === "executive" ? (
+                        <Form.Control
+                          type="text"
+                          value={
+                            clientData
+                              .find((c) => c._id === companyId)
+                              ?.executives?.find((ex) => ex._id === executiveId)
+                              ?.name || ""
+                          }
+                          readOnly
+                          style={{ background: "#f8f9fa", cursor: "not-allowed" }}
+                        />
+                      ) : (
+                        <Form.Select
+                          value={executiveId}
+                          onChange={(e) => setExecutiveId(e.target.value)}
+                          disabled={!companyId}
+                        >
+                          <option value="">Select Executive Name</option>
+                          {companyId &&
+                            clientData
+                              .find((c) => c._id === companyId)
+                              ?.executives?.map((ex) => (
+                                <option key={ex._id} value={ex._id}>
+                                  {ex.name}
+                                </option>
+                              ))}
+                        </Form.Select>
+                      )}
                     </Form.Group>
                   </Col>
                 </Row>
