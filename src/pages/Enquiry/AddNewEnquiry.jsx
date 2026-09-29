@@ -165,9 +165,14 @@ const AddNewEnquiry = () => {
   const handleSubcategorySelection = (e) => {
     const subcategory = e.target.value;
     setSubCategory(subcategory);
+    const selectedIds = new Set(
+      selectedProducts.map((p) => p._id || p.id)
+    );
     setFilteredProducts(
       allProducts?.filter(
-        (product) => product.ProductSubcategory === subcategory.trim()
+        (product) =>
+          product.ProductSubcategory === subcategory.trim() &&
+          !selectedIds.has(product._id)
       )
     );
   };
@@ -180,10 +185,15 @@ const AddNewEnquiry = () => {
 
   // Add product to selection
   const handleSelectProduct = (product) => {
-    setSelectedProducts((prev) => [
-      ...prev,
-      { ...product, qty: 1, total: product.ProductPrice },
-    ]);
+    setSelectedProducts((prev) => {
+      if (prev.some((p) => (p._id || p.id) === (product._id || product.id))) {
+        return prev;
+      }
+      return [
+        ...prev,
+        { ...product, qty: 1, total: product.ProductPrice },
+      ];
+    });
     setFilteredProducts((prevProducts) =>
       prevProducts.filter((item) => item._id !== product._id)
     );
